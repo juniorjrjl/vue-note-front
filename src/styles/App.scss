@@ -1,0 +1,10 @@
+@charset 'utf-8';
+@use "bulma/sass/utilities/functions" as *;
+@use "./custom_colors" as *;
+
+$custom-colors: (
+    "custom-purple": ($custom-purple),
+    "custom-purple-darker": ($custom-purple-darker)
+);
+
+@use "bulma/bulma" as *;

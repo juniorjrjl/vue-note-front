@@ -1,0 +1,19 @@
+@use "sass:color";
+
+$custom-purple: #694ED8 !default;
+$custom-purple-darker: #6600CC !default;
+$custom-grey: #f3f3f3;
+$custom-grey-light: #e4e4e4;
+
+
+.button.is-custom-purple {
+    background-color: $custom-purple;
+    border-color: $custom-purple;
+    color: white;
+
+    &:hover {
+
+        background-color: color.scale($custom-purple, $lightness: 10%);
+        border-color: color.scale($custom-purple, $lightness: 10%);
+    }
+}

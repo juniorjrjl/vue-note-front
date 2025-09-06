@@ -1,0 +1,21 @@
+services:
+  front:
+    build:
+      context: .
+    ports:
+    - '5173:5173'
+    volumes:
+      - '.:/vue-note-front'
+      - 'box:/node_modules'
+    stdin_open: true
+    tty: true
+    command:  npm run dev
+    networks:
+      - nest-note-api-net
+
+volumes:
+  box:
+networks:
+  nest-note-api-net:
+    name: nest-note-api-net
+    external: true
