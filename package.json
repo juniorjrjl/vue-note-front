@@ -15,11 +15,15 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@vee-validate/yup": "^4.15.1",
+    "axios": "^1.11.0",
     "buefy": "^3.0.2",
     "bulma": "^1.0.4",
     "pinia": "^3.0.3",
+    "vee-validate": "^4.15.1",
     "vue": "^3.5.18",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "yup": "^1.7.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
