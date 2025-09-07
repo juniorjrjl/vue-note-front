@@ -3,6 +3,11 @@
     import { toTypedSchema } from '@vee-validate/yup'
     import { registerSchema, type RegisterForm } from '@/validation/RegisterValidation'
     import UserService from '@/services/UserService'
+    import { useRouter } from 'vue-router'
+    import { getCurrentInstance } from 'vue'
+
+    const router = useRouter()
+    const { proxy } = getCurrentInstance()!
 
     const {handleSubmit, meta, resetForm} = useForm<RegisterForm>({
         validationSchema: toTypedSchema(registerSchema)
@@ -13,11 +18,36 @@
     const { value: password, errorMessage: passwordError, handleBlur: blurPassword } = useField('password')
     const { value: confirmPassword, errorMessage: confirmPasswordError, handleBlur: blurConfirmPassword } = useField('confirmPassword')
 
-    const onSubmit = handleSubmit((formData) => {
+    const onSubmit = handleSubmit(async (formData) => {
         try {
-            UserService.register(formData)
+            const {data, error} = await UserService.register(formData)
+            let message = ''
+            let type = ''
+            if (data){
+                message = 'User registered successfully! Please login.'
+                type = 'is-success'
+                router.push('/login')
+            } else if (error) {
+                message = 'Error registering user. Please try again.'
+                type = 'is-danger'
+                console.error('Registration error:', error)
+            }
+            proxy?.$buefy.toast.open({
+                message,
+                type,
+                duration: 5000,
+                position: 'is-top-right',
+                queue: false
+            })
         } catch (error) {
-            console.error(error)
+            console.error('Registration error:', error)
+            proxy?.$buefy.toast.open({
+                message: 'Error registering user. Please try again.',
+                type: 'is-danger',
+                duration: 5000,
+                position: 'is-top',
+                queue: false
+            })
         }finally {
             resetForm()
         }
