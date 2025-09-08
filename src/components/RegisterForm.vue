@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useForm, useField } from 'vee-validate'
     import { toTypedSchema } from '@vee-validate/yup'
-    import { registerSchema, type RegisterForm } from '@/validation/RegisterValidation'
+    import { registerSchema, type RegisterForm } from '@/validations/UserValidations'
     import UserService from '@/services/UserService'
     import { useRouter } from 'vue-router'
     import { getCurrentInstance } from 'vue'
@@ -51,7 +51,6 @@
         }finally {
             resetForm()
         }
-
     })
 
 </script>
