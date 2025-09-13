@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import LoginForm from '@/components/LoginForm.vue';
+    import LoginForm from '@/components/users/LoginForm.vue';
     import logoImage from '@/assets/logo.png';
 </script>
 

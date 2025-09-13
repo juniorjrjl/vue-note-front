@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import RegisterForm from '@/components/RegisterForm.vue';
+    import RegisterForm from '@/components/users/RegisterForm.vue';
     import logoImage from '@/assets/logo.png';
 </script>
 

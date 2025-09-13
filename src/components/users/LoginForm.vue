@@ -1,12 +1,14 @@
 <script setup lang="ts">
+    import { routerInfo } from '@/router';
     import UserService from '@/services/UserService';
-import { loginSchema, type LoginForm } from '@/validations/UserValidations';
+    import { useAuthStore } from '@/stores/auth';
+    import { loginSchema, type LoginForm } from '@/validations/UserValidations';
     import { toTypedSchema } from '@vee-validate/yup';
     import { useField, useForm } from 'vee-validate';
     import { getCurrentInstance } from 'vue';
     import { useRouter } from 'vue-router';
 
-
+    const authStore = useAuthStore()
     const router = useRouter()
     const { proxy } = getCurrentInstance()!
 
@@ -18,20 +20,24 @@ import { loginSchema, type LoginForm } from '@/validations/UserValidations';
     const { value: password, errorMessage: passwordError, handleBlur: blurPassword } = useField('password')
 
     const onSubmit = handleSubmit(async (formData) => {
-                try {
+        try {
             const {data, error} = await UserService.login(formData)
             if (data){
-                console.log('Login successful:', data)
-                router.push('/notes')
-            } else if (error) {
-            proxy?.$buefy.toast.open({
-                message: 'Error logging in user. Please try again.',
-                type: 'is-danger',
-                duration: 5000,
-                position: 'is-top',
-                queue: false
-            })
+                authStore.setAuth(data)
+                await router.push(routerInfo.notes.path)
+                return
+            }
+            
+            if (error) {
+                proxy?.$buefy.toast.open({
+                    message: 'Error logging in user. Please try again.',
+                    type: 'is-danger',
+                    duration: 5000,
+                    position: 'is-top',
+                    queue: false
+                })
                 console.error('Login error:', error)
+                return
             }
         } catch (error) {
             console.error('Login error:', error)

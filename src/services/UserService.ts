@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { Axios, type AxiosResponse } from "axios";
 import api, { type ApiErrorResponse, type ApiResult } from "./api";
 
 type UserInsertedResponse = {
@@ -26,8 +26,8 @@ const UserService = {
 
     register: async (userData: { name: string; email: string; password: string; }): Promise<ApiResult<UserInsertedResponse>> => {
         try {
-            const res = await api.post<UserInsertedResponse, UserInsertedResponse>("/users/register", userData);
-            return { data: res };
+            const res = await api.post<UserInsertedResponse, AxiosResponse<UserInsertedResponse>>("/users/register", userData);
+            return { data: res.data };
         } catch (error) {
             if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;
 
@@ -36,17 +36,17 @@ const UserService = {
     },
     update: async (userData: { name: string; email: string; }, token: string): Promise<ApiResult<UserUpdatedResponse>> => {
         try {
-            const res = await api.post<UserUpdatedResponse, UserUpdatedResponse>("/users/login", userData);
-            return { data: res };
+            const res = await api.post<UserUpdatedResponse, AxiosResponse<UserUpdatedResponse>>("/users/login", userData);
+            return { data: res.data };
         } catch (error) {
             if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;
 
             return { error: error.response?.data };
         }
     },
-    delete: async (token: string): Promise<ApiResult<void>> => {
+    delete: async (token: string, id: string): Promise<ApiResult<void>> => {
         try {
-            await api.delete<void, void>("/users/");
+            await api.delete<void, void>(`/users/${id}`, { headers: { Authorization: `Bearer ${token}` } });
             return { data: undefined };
         } catch (error) {
             if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;
@@ -56,8 +56,8 @@ const UserService = {
     },
     login: async (userData: { email: string; password: string; }): Promise<ApiResult<UserLoginResponse>> => {
         try {
-            const res = await api.post<UserLoginResponse, UserLoginResponse>("/users/login", userData);
-            return { data: res };
+            const res = await api.post<UserLoginResponse, AxiosResponse<UserLoginResponse>>("/users/login", userData);
+            return { data: res.data };
         } catch (error) {
             if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;
 

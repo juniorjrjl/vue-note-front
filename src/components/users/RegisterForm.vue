@@ -5,6 +5,7 @@
     import UserService from '@/services/UserService'
     import { useRouter } from 'vue-router'
     import { getCurrentInstance } from 'vue'
+    import { routerInfo } from '@/router'
 
     const router = useRouter()
     const { proxy } = getCurrentInstance()!
@@ -26,7 +27,7 @@
             if (data){
                 message = 'User registered successfully! Please login.'
                 type = 'is-success'
-                router.push('/login')
+                router.push(routerInfo.home.path)
             } else if (error) {
                 message = 'Error registering user. Please try again.'
                 type = 'is-danger'
@@ -36,7 +37,7 @@
                 message,
                 type,
                 duration: 5000,
-                position: 'is-top-right',
+                position: 'is-top',
                 queue: false
             })
         } catch (error) {

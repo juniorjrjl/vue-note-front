@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { routerInfo } from '@/router';
+
+</script>
 
 <template>
     <section class="section">
@@ -16,7 +19,7 @@
                     </h2>
 
                     <h2 class="title mt-5">
-                        <RouterLink to="/register" class="button is-outlined is-white is-large">
+                        <RouterLink :to="routerInfo.register.path" class="button is-outlined is-white is-large">
                             <strong>Register for free Now</strong>
                         </RouterLink>
                     </h2>
