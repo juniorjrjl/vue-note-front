@@ -3,7 +3,7 @@
     import { useAuthStore } from '@/stores/auth';
     import { toTypedSchema } from '@vee-validate/yup';
     import { useField, useForm } from 'vee-validate';
-    import { getCurrentInstance, watchEffect } from 'vue';
+    import { getCurrentInstance, watch } from 'vue';
     import { editSchema, type EditForm  } from '@/validations/UserValidations';
     import { useRouter } from 'vue-router';
     import { routerInfo } from '@/router';
@@ -14,21 +14,22 @@
     const router = useRouter()
     const { proxy } = getCurrentInstance()!
 
-        const {handleSubmit, meta, resetForm} = useForm<EditForm>({
-        validationSchema: toTypedSchema(editSchema)
-    })
+    const {handleSubmit, meta, resetForm} = useForm<EditForm>({validationSchema: toTypedSchema(editSchema)})
 
-    watchEffect(() => {
-        const {name, email} = currentUserStore.currentUser
-        if (name && email){
-            resetForm({
-                values:{
-                    name,
-                    email
-                }
-            })
+    watch(
+    () => currentUserStore.currentUser,
+    (user) => {
+        if (user?.name && user?.email) {
+        resetForm({
+            values: {
+            name: user.name,
+            email: user.email
+            }
+        })
         }
-    })
+    },
+    { immediate: true, once: true }
+    )
 
     const { value: email, errorMessage: emailError, handleBlur: blurEmail } = useField('email')
     const { value: name, errorMessage: nameError, handleBlur: blurName } = useField('name')

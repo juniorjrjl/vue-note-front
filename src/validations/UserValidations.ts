@@ -40,3 +40,17 @@ export const editSchema = yup.object().shape({
 })
 
 export type EditForm = yup.InferType<typeof editSchema>;
+
+export const changePasswordSchema = yup.object().shape({
+    oldPassword: yup.string()
+        .min(5, 'Old password must be at least 5 characters')
+        .required('Old password is required'),
+    newPassword: yup.string()
+        .min(5, 'New password must be at least 5 characters')
+        .required('New password is required'),
+    confirmPassword: yup.string()
+        .oneOf([yup.ref('newPassword'), undefined], 'Passwords must match')
+        .required('Confirm Password is required'),
+})
+
+export type ChangePasswordForm = yup.InferType<typeof changePasswordSchema>

@@ -1,4 +1,4 @@
-import axios, { Axios, type AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 import api, { type ApiErrorResponse, type ApiResult } from "./api";
 
 type UserInsertedResponse = {
@@ -29,6 +29,7 @@ type UserFoundResponse = {
     createdAt: Date | null
     updatedAt: Date | null
 }
+
 
 const UsersService = {
 
@@ -76,6 +77,17 @@ const UsersService = {
         try {
             const res = await api.get<UserFoundResponse, AxiosResponse<UserFoundResponse>>(`/users/${id}`, { headers: { Authorization: `Bearer ${token}` } });
             return { data: res.data };
+        } catch (error) {
+            if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;
+
+            return { error: error.response?.data };
+        }
+    },
+
+    changePassword: async (id: string, body: { oldPassword: string, confirmPassword: string, newPassword: string }, token: string): Promise<ApiResult<void>> => {
+        try {
+            await api.put<void, AxiosResponse<void>>(`/users/${id}/password/change`, body, { headers: { Authorization: `Bearer ${token}` } });
+            return { data: undefined };
         } catch (error) {
             if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;
 

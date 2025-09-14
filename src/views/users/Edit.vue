@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import ChangePassword from '@/components/users/ChangePassword.vue';
     import DeleteAccount from '@/components/users/DeleteAccount.vue';
     import EditForm from '@/components/users/EditForm.vue';
     import { routerInfo } from '@/router';
@@ -67,6 +68,7 @@
                     <h2 class="title is-5 has-text-grey has-text-Left">Change Password</h2>
                     <div class="card">
                         <div class="card-content">
+                            <ChangePassword />
                         </div>
                     </div>
                 </div>
