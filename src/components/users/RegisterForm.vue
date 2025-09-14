@@ -2,7 +2,7 @@
     import { useForm, useField } from 'vee-validate'
     import { toTypedSchema } from '@vee-validate/yup'
     import { registerSchema, type RegisterForm } from '@/validations/UserValidations'
-    import UserService from '@/services/UserService'
+    import UsersService from '@/services/UserService'
     import { useRouter } from 'vue-router'
     import { getCurrentInstance } from 'vue'
     import { routerInfo } from '@/router'
@@ -21,7 +21,7 @@
 
     const onSubmit = handleSubmit(async (formData) => {
         try {
-            const {data, error} = await UserService.register(formData)
+            const {data, error} = await UsersService.register(formData)
             let message = ''
             let type = ''
             if (data){

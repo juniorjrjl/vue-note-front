@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { routerInfo } from '@/router';
-    import UserService from '@/services/UserService';
+    import UsersService from '@/services/UserService';
     import { useAuthStore } from '@/stores/auth';
     import { useYesNoStore, YesNoResponse } from '@/stores/yesNo';
     import { getCurrentInstance, watch } from 'vue';
@@ -34,7 +34,7 @@
                     router.push(routerInfo.login)
                     return
                 }
-                const {error} = await  UserService.delete(authStore.accessToken, authStore.userId)
+                const {error} = await  UsersService.delete(authStore.accessToken, authStore.userId)
                 if (!error){
                     authStore.clearAuth()
                     router.push(routerInfo.home.path)

@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { routerInfo } from '@/router';
-    import UserService from '@/services/UserService';
+    import UsersService from '@/services/UserService';
     import { useAuthStore } from '@/stores/auth';
     import { loginSchema, type LoginForm } from '@/validations/UserValidations';
     import { toTypedSchema } from '@vee-validate/yup';
@@ -21,7 +21,7 @@
 
     const onSubmit = handleSubmit(async (formData) => {
         try {
-            const {data, error} = await UserService.login(formData)
+            const {data, error} = await UsersService.login(formData)
             if (data){
                 authStore.setAuth(data)
                 await router.push(routerInfo.notes.path)

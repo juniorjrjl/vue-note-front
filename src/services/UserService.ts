@@ -22,7 +22,15 @@ type UserLoginResponse = {
     accessTokenExpiresIn: number
 }
 
-const UserService = {
+type UserFoundResponse = {
+    id: string | null
+    name: string | null
+    email: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+}
+
+const UsersService = {
 
     register: async (userData: { name: string; email: string; password: string; }): Promise<ApiResult<UserInsertedResponse>> => {
         try {
@@ -34,9 +42,9 @@ const UserService = {
             return { error: error.response?.data };
         }
     },
-    update: async (userData: { name: string; email: string; }, token: string): Promise<ApiResult<UserUpdatedResponse>> => {
+    update: async (id: string, userData: { name: string; email: string; }, token: string): Promise<ApiResult<UserUpdatedResponse>> => {
         try {
-            const res = await api.post<UserUpdatedResponse, AxiosResponse<UserUpdatedResponse>>("/users/login", userData);
+            const res = await api.put<UserUpdatedResponse, AxiosResponse<UserUpdatedResponse>>(`/users/${id}`, userData, { headers: { Authorization: `Bearer ${token}` } });
             return { data: res.data };
         } catch (error) {
             if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;
@@ -63,8 +71,19 @@ const UserService = {
 
             return { error: error.response?.data };
         }
+    },
+    findById: async (id: string, token: string): Promise<ApiResult<UserFoundResponse>> => {
+        try {
+            const res = await api.get<UserFoundResponse, AxiosResponse<UserFoundResponse>>(`/users/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+            return { data: res.data };
+        } catch (error) {
+            if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;
+
+            return { error: error.response?.data };
+        }
     }
+
 
 }
 
-export default UserService;
+export default UsersService;
