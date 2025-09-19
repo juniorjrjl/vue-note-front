@@ -17,18 +17,18 @@
     const {handleSubmit, meta, resetForm} = useForm<EditForm>({validationSchema: toTypedSchema(editSchema)})
 
     watch(
-    () => currentUserStore.currentUser,
-    (user) => {
-        if (user?.name && user?.email) {
-        resetForm({
-            values: {
-            name: user.name,
-            email: user.email
+        () => currentUserStore.currentUser,
+        (user) => {
+            if (user?.name && user?.email) {
+            resetForm({
+                values: {
+                name: user.name,
+                email: user.email
+                }
+            })
             }
-        })
-        }
-    },
-    { immediate: true, once: true }
+        },
+        { immediate: true, once: true }
     )
 
     const { value: email, errorMessage: emailError, handleBlur: blurEmail } = useField('email')

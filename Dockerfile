@@ -1,4 +1,4 @@
-FROM node:22.2.0
+FROM node:22.19.0
 
 RUN apt-get update && apt-get install -qq -y --no-install-recommends && apt-get upgrade -y && apt-get clean
 

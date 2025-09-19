@@ -1,12 +1,12 @@
 <script setup lang="ts">
-    import {ref} from "vue";
+    import {computed, ref} from "vue";
     import logoImage from '@/assets/logo.png';
     import { routerInfo } from "@/router";
     import { useAuthStore } from "@/stores/auth";
 
     const isActive = ref(false)
     const authStore = useAuthStore()
-    const logoLink = authStore.isAuthenticated ? routerInfo.notes.path : routerInfo.home.path
+    const logoLink = computed(() => authStore.isAuthenticated ? routerInfo.notes.path : routerInfo.home.path)
 </script>
 
 <template>

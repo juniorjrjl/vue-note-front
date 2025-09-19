@@ -1,12 +1,12 @@
 <script setup lang="ts">
     import { routerInfo } from '@/router';
-import UsersService from '@/services/UserService';
-import { useAuthStore } from '@/stores/auth';
-import { changePasswordSchema, type ChangePasswordForm } from '@/validations/UserValidations';
+    import UsersService from '@/services/UserService';
+    import { useAuthStore } from '@/stores/auth';
+    import { changePasswordSchema, type ChangePasswordForm } from '@/validations/UserValidations';
     import { toTypedSchema } from '@vee-validate/yup';
     import { useField, useForm } from 'vee-validate';
-import { getCurrentInstance } from 'vue';
-import { useRouter } from 'vue-router';
+    import { getCurrentInstance } from 'vue';
+    import { useRouter } from 'vue-router';
 
     const router = useRouter()
     const authStore = useAuthStore()

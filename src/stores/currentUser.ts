@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
 
-const currentUserKey = 'currentUser'
-
 export type CurrentUser = {
     id: string | null
     name: string | null

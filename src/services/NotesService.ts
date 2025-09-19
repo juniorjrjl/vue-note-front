@@ -32,11 +32,12 @@ type NoteUpdatedResponse = {
 type NoteAuthorResponse = {
     id: string
     title: string
+    body: string
     createdAt: Date
     updatedAt: Date
 }
 
-const NotesService = {
+export const NotesService = {
 
     create: async (noteDate: { title: string; body: string; }, authorId: string, token: string): Promise<ApiResult<NoteInsertedResponse>> => {
         try {
@@ -71,9 +72,10 @@ const NotesService = {
         }
     },
 
-    findByAuthor: async (authorId: string, query: string, token: string): Promise<ApiResult<NoteAuthorResponse[]>> => {
+    findByAuthor: async (authorId: string, query: string | null, token: string): Promise<ApiResult<NoteAuthorResponse[]>> => {
         try {
-            const res = await api.get<NoteAuthorResponse[], AxiosResponse<NoteAuthorResponse[]>>(`/author/${authorId}/notes?query=${query}`, { headers: { Authorization: `Bearer ${token}` } });
+            const url = query ? `/author/${authorId}/notes?query=${query}` : `/author/${authorId}/notes`
+            const res = await api.get<NoteAuthorResponse[], AxiosResponse<NoteAuthorResponse[]>>(url, { headers: { Authorization: `Bearer ${token}` } });
             return { data: res.data };
         } catch (error) {
             if (!axios.isAxiosError<ApiErrorResponse>(error)) throw error;

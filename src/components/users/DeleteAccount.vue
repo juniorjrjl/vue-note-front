@@ -1,31 +1,15 @@
 <script setup lang="ts">
     import { routerInfo } from '@/router';
+    import { askYesNo } from '@/services/ModalService';
     import UsersService from '@/services/UserService';
     import { useAuthStore } from '@/stores/auth';
-    import { useYesNoStore, YesNoResponse } from '@/stores/yesNo';
-    import { getCurrentInstance, watch } from 'vue';
+    import { YesNoResponse } from '@/stores/yesNo';
+    import { getCurrentInstance } from 'vue';
     import { useRouter } from 'vue-router';
 
     const authStore = useAuthStore()
-    const yesNoStore = useYesNoStore()
     const router = useRouter()
     const { proxy } = getCurrentInstance()!
-
-    const askYesNo = (message: string): Promise<YesNoResponse> => {
-        yesNoStore.open(message)
-
-        return new Promise((resolve) => {
-            const stop = watch(
-                () => yesNoStore.event,
-                (val) => {
-                    if (val !== null) {
-                        stop()
-                        resolve(val)
-                    }
-                }
-            )
-        })
-    }
 
     const deleteAccount = async () => {
         if (await askYesNo('Are you sure you want to delete your account?') === YesNoResponse.YES) {
